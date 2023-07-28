@@ -53,7 +53,7 @@ func (m *MongoDBProcessor) GetAccountByAddress(address common.Address) (*models.
 		bson.D{{"address", address}}, o)
 
 	if result.Err() == mongo.ErrNoDocuments {
-		return &models.Account{}, nil
+		return models.NewAccount(address), nil
 	} else if result.Err() != nil {
 		return nil, result.Err()
 	}
