@@ -10,3 +10,10 @@ type Account struct {
 func (a *Account) UpdateBalance(balance int64) {
 	a.Balance += balance
 }
+
+func NewAccount(address common.Address) *Account {
+	return &Account{
+		Address: address,
+		Balance: 0,
+	}
+}
