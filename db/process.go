@@ -66,7 +66,7 @@ func (m *MongoDBProcessor) ProcessBlock(b *generated.Block) error {
 		default:
 			addrFrom = xmss.GetXMSSAddressFromPK(protoTX.PublicKey)
 			if protoTX.MasterAddr != nil {
-				addrFrom = xmss.GetXMSSAddressFromPK(protoTX.MasterAddr)
+				addrFrom = misc.ToStringAddress(protoTX.MasterAddr)
 			}
 		}
 
