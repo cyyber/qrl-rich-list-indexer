@@ -19,6 +19,7 @@ func (b BalanceChangeLogCache) Update(blockNumber int64, address common.Address,
 	v := b.Get(address)
 	if v == nil {
 		v = models.NewBalanceChangeLog(blockNumber, address)
+		b.Put(address, v)
 	}
 	v.UpdateDeltaAmount(deltaAmount)
 }
