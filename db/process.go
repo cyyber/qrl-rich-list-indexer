@@ -71,7 +71,6 @@ func (m *MongoDBProcessor) ProcessBlock(b *generated.Block) error {
 		}
 
 		switch protoTX.TransactionType.(type) {
-		//TODO: Add edge case for coinbase hack block & banned account address
 		case *generated.Transaction_Coinbase:
 			coinBaseTX := protoTX.GetCoinbase()
 			address := misc.ToStringAddress(coinBaseTX.AddrTo)
