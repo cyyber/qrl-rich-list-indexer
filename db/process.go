@@ -51,7 +51,7 @@ func (m *MongoDBProcessor) ProcessBlock(b *generated.Block) error {
 		deleteManyOperation.SetFilter(bsonx.Doc{
 			{"blockNumber", bsonx.Int64(int64(removeBlockNumber))},
 		})
-		balanceChangeLogOperations = append(balanceChangeLogOperations, deleteOneOperation)
+		balanceChangeLogOperations = append(balanceChangeLogOperations, deleteManyOperation)
 	}
 
 	accountCache := make(cache.AccountCache)
