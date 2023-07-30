@@ -185,19 +185,18 @@ func (m *MongoDBProcessor) ProcessBlock(b *generated.Block) error {
 		}
 	}
 
-	for addr, account := range accountCache {
-		if _, ok := m.config.BannedQRLAddressList[addr.ToString()]; ok {
-			if uint64(blockNumber) >= m.config.BanStartBlockNumber {
-				account.Balance = 0
-			}
+	if uint64(blockNumber) >= m.config.BanStartBlockNumber {
+		for addr, _ := range m.config.BannedQRLAddressList {
+			account := models.NewAccount(common.Address(addr))
+
+			operation := mongo.NewUpdateOneModel()
+			operation.SetUpsert(true)
+			operation.SetFilter(bsonx.Doc{
+				{"address", bsonx.String(addr)},
+			})
+			operation.SetUpdate(bson.M{"$set": account})
+			accountOperations = append(accountOperations, operation)
 		}
-		operation := mongo.NewUpdateOneModel()
-		operation.SetUpsert(true)
-		operation.SetFilter(bsonx.Doc{
-			{"address", bsonx.String(addr.ToString())},
-		})
-		operation.SetUpdate(bson.M{"$set": account})
-		accountOperations = append(accountOperations, operation)
 	}
 
 	for addr, balanceChangeLog := range balanceChangeLogCache {
